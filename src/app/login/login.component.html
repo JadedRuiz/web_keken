@@ -1,0 +1,121 @@
+<nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark bg-white">
+    <div class="container px-4">
+      <!-- <button class="navbar-toggler" type="button" (click)="isCollapsed=!isCollapsed"
+         aria-controls="sidenav-collapse-main">
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
+      <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+        <!-- Collapse header -->
+        <div class="navbar-collapse-header d-md-none">
+          <div class="row">
+            <div class="col-6 collapse-brand">
+              <a routerLinkActive="active" [routerLink]="['/dashboard']">
+                <img src="assets/img/brand/blue.png">
+              </a>
+            </div>
+            <div class="col-6 collapse-close">
+              <!-- <button type="button" class="navbar-toggler" (click)="isCollapsed=!isCollapsed" > -->
+                <!-- <span></span>
+                <span></span> -->
+              <!-- </button> -->
+            </div>
+          </div>
+        </div>
+        <!-- Navbar items
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link nav-link-icon" routerLinkActive="active" [routerLink]="['/register']">
+              <i class="ni ni-circle-08"></i>
+              <span class="nav-link-inner--text">Registro</span>
+            </a>
+          </li>
+        </ul> -->
+      </div>
+    </div>
+  </nav>
+  <div class="header py-5 py-lg-5 bg-white">
+    <div class="container">
+      <div class="header-body text-center mb-7">
+        <div class="row justify-content-center">
+          <div class="col-lg-12 col-md-6">
+            <img src="assets/img/brand/favicon_keken.png" width="150" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="separator separator-bottom separator-skew zindex-100">
+      <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
+      </svg>
+    </div>
+  </div>
+  <!-- Page content -->
+  <div class="container-fluid mt--9 pb-5 bg-white">
+    <div class="row justify-content-center">
+      <div class="col-lg-4 col-md-6">
+        <div class="card shadow border-0" style="background-color: #F4313F;">
+          <div class="card-body px-lg-5 py-lg-5">
+            <form role="form" #f="ngForm" ngNativeValidate (ngSubmit)="login(f)">
+              <div class="form-group mb-3">
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                  </div>
+                  <input name="usuario" class="form-control" placeholder="Usuario" type="text" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                  </div>
+                  <input name="password" class="form-control" placeholder="Contraseña" type="password" required>
+                </div>
+              </div>
+              <div class="custom-control custom-control-alternative custom-checkbox">
+                <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
+                <label class="custom-control-label" for=" customCheckLogin">
+                  <span class="text-muted">Recordar</span>
+                </label>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn my-4" style="background-color: #84203B;color: white;">Iniciar sesión</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- <div class="row mt-3">
+          <div class="col-6">
+            <a href="javascript:void(0)" class="text-light"><small>Has olvidado tu contraseña?</small></a>
+          </div>
+          <div class="col-6 text-right">
+            <a href="javascript:void(0)" class="text-light"><small>Registrate aqui</small></a>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+<footer class="py-5 bg-white">
+  <div class="container">
+    <div class="row align-items-center justify-content-xl-between">
+      <div class="col-xl-6">
+        <div class="copyright text-center text-xl-left text-muted">
+          <a href="http://inicio.serteza.com" class="font-weight-bold ml-1" target="_blank">Serteza&copy;</a>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+          <li class="nav-item">
+            <a href="http://inicio.serteza.com" class="nav-link" target="_blank">Contacto</a>
+          </li>
+          <li class="nav-item">
+            <a href="https://www.creative-tim.com/presentation?ref=ada-footer-auth-layout" class="nav-link" target="_blank">Acerca de nosotros</a>
+          </li>
+          <li class="nav-item">
+            <a href="http://blog.creative-tim.com?ref=ada-footer-auth-layout" class="nav-link" target="_blank">Nuestro blog</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
