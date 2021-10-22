@@ -27,23 +27,16 @@ export class UsuarioService {
         return throwError(err);
       }));
   }
-  altaUsuario(json : any){
-    let url = SERVER_API+"usuario/altaUsuario";
-    return this.http.post( url, json )
-      .pipe(map( (resp: any) => {
-        return resp;
-      }), catchError(err => {
-        Swal.fire("Ha ocurrido un error", 'El campo "usuario" que se intenta dar de alta ya se encuentra utilizado.', 'error');
-        return throwError(err);
-      }));
+  estalogueado() {
+    return (window.localStorage.getItem("id_usuario") != null ) ? true : false;
   }
-  altaUsuarioAdmin(json : any){
-    let url = SERVER_API+"usuario/altaUsuarioAdmin";
-    return this.http.post( url, json )
+  altaUsuario(usuario : Usuario){
+    let url = SERVER_API+"usuario/nuevoUsuario";
+    return this.http.post( url, usuario )
       .pipe(map( (resp: any) => {
         return resp;
       }), catchError(err => {
-        Swal.fire("Ha ocurrido un error", 'El campo "usuario" que se intenta dar de alta ya se encuentra utilizado.', 'error');
+        Swal.fire("Ha ocurrido un error", err.error.message, 'error');
         return throwError(err);
       }));
   }
@@ -57,15 +50,6 @@ export class UsuarioService {
         return throwError(err);
       }));
   }
-  obtenerToken(){
-    return this.cookies.get("token");
-  }
-  guardarToken(token: String){
-    this.cookies.set("token",token+"");
-  }
-  logout(){
-    this.cookies.delete("token");
-  }
   obtenerUsuarios(json : any){
     let url = SERVER_API+"usuario/usuarios";
     return this.http.post( url, json )
@@ -76,50 +60,8 @@ export class UsuarioService {
       return throwError(err);
     }));
   }
-  obtenerSistemas(){
-    let url = SERVER_API+"usuario/obtenerSistemas";
-    return this.http.get(url);
-  }
-  obtenerSistemasAdmin(id : any){
-    let url = SERVER_API+"usuario/obtenerSistemasAdmin/"+id;
-    return this.http.get(url);
-  }
-  obtenerUsuarioPorId(id_usuario : any){
-    let url = SERVER_API+"usuario/obtenerUsuarioPorId/"+id_usuario;
-    return this.http.get(url);
-  }
-  obtenerUsuariosDeEntidad(json : any){
-    let url = SERVER_API+"usuario/obtenerUsuariosDeEntidad";
-    return this.http.post( url, json )
-    .pipe(map( (resp: any) => {
-      return resp;
-    }), catchError(err => {
-      Swal.fire("Ha ocurrido un error", err.error.message, 'error');
-      return throwError(err);
-    }));
-  }
   autoCompleteUsuario(json : any){
     let url = SERVER_API+"usuario/autoCompleteUsuario";
-    return this.http.post( url, json )
-    .pipe(map( (resp: any) => {
-      return resp;
-    }), catchError(err => {
-      Swal.fire("Ha ocurrido un error", err.error.message, 'error');
-      return throwError(err);
-    }));
-  }
-  autoCompletePorIdEmpresa(json : any){
-    let url = SERVER_API+"usuario/autoCompletePorIdEmpresa";
-    return this.http.post( url, json )
-    .pipe(map( (resp: any) => {
-      return resp;
-    }), catchError(err => {
-      Swal.fire("Ha ocurrido un error", err.error.message, 'error');
-      return throwError(err);
-    }));
-  }
-  tieneSistema(json : any){
-    let url = SERVER_API+"usuario/tieneSistema";
     return this.http.post( url, json )
     .pipe(map( (resp: any) => {
       return resp;

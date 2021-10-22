@@ -1,0 +1,317 @@
+<div class="container-fluid" style="padding-top: 120px;">
+    <div class="row">
+        <div class="col-12 table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title px-1 py-1">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h2>RELACIÓN LABORAL</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-4">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                </div>
+                                <input type="text"
+                                #input
+                                class="form-control"
+                                placeholder="Buscar..."
+                                [formControl]="myControl"
+                                (keyup)="autoComplete(input.value)"
+                                [(ngModel)]="buscador"
+                                [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete" (optionSelected)='buscar()'>
+                                    <mat-option *ngFor="let auto of autocomplete" [value]="auto.nombre" [id]="auto.id_RelacionLaboral" >
+                                    {{auto.nombre}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" style="cursor: pointer;" (click)="buscar()"><i class="fas fa-play"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-4">
+                        </div>
+                        <div class="col-sm-6 col-lg-4 text-right">
+                            <a class="btn btn-success" (click)="nuevaAlta()"><i class="fas fa-plus-circle"></i>&nbsp;Alta laboral</a>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover mt-1">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Telefono</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="relaciones.length > 0; else pintaVacio">
+                        <tr *ngFor="let relacion of relaciones">
+                            <td style="vertical-align: middle;" class="d-flex justify-content-start align-items-center">
+                                <img  class="rounded mr-2" [src]="relacion.url_foto" alt="" height="40" width="40" style="object-fit: cover;object-position: center center;">
+                                {{relacion.nombre}}
+                            </td>
+                            <td style="vertical-align: middle;">{{relacion.correo}}</td>
+                            <td style="vertical-align: middle;">{{relacion.telefono}}</td>
+                            <td style="vertical-align: middle;">
+                                <a style="cursor: pointer;" class="btn btn-info btn-sm" title="Visualizar" (click)="ver(relacion.id_RelacionLaboral)"><i class="fas fa-eye"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <ng-template #pintaVacio>
+                        <tbody>
+                            <tr>
+                                <td colspan="4" class="text-center">No existen relaciones</td>
+                            </tr>
+                        </tbody>
+                    </ng-template>
+                </table>
+                <div class="col-12 text-right">
+                    <!-- <nav *ngIf="mostrar_pagination" aria-label="Page navigation example">
+                        <div class="hint-text">Mostrando <b>5</b> de <b>25</b> usuarios</div>
+                        <ul class="pagination">
+                          <li class="page-item" *ngIf="previous">
+                            <a class="page-link" href="#" aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                          </li>
+                          <li *ngFor="let pagina of paginas" class="page-item {{pagina.active}}" (click)="irPagina(pagina.valor_pagina)"><a class="page-link" style="cursor: pointer;">{{pagina.numero}}</a></li>
+                          <li class="page-item" *ngIf="next">
+                            <a class="page-link" href="#" aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                          </li>
+                        </ul>
+                    </nav> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h3 class="modal-title" *ngIf="tipo_modal == 1">RELACIÓN LABORAL</h3>
+      <h3 class="modal-title" *ngIf="tipo_modal == 2">EDITAR RELACIÓN LABORAL</h3>
+    </div>
+    <div class="modal-body" style="height: 400px;">
+        <mat-tab-group mat-align-tabs="center">
+            <mat-tab label="DATOS DE CAPTURA">
+                <div class="container mt-2">
+                    <div class="row">
+                        <h4>DATOS GENERALES</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-12">
+                            <div style="width: 150px; height: 150px;position: relative;">
+                              <img  class="rounded-circle" [src]="url_foto" style="width: 100%;height: 100%;object-fit: cover;
+                              object-position: center center;">
+                              <input type="file" #file_input id="foto_user" style="display: none;" accept=".png,.jpg" (change)="cambiarImagen($event)">
+                              <div ngbDropdown class="d-inline-block float-right" style="position: absolute;bottom: 0px;cursor: pointer;right: 0px;">
+                                  <div class="rounded-circle {{color}}" style="height: 40px; width: 40px; display: flex; justify-content: center; align-items: center;" title="Subir foto" (mouseover)="changeStyle($event)" (mouseout)="changeStyle($event)" ngbDropdownToggle><i class="fas fa-camera text-white" ></i></div>
+                                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <button ngbDropdownItem>
+                                      <p class="py-0 px-0 my-0 mx-0" (click)="subirImagen()"><i class="fas fa-file-upload"></i> &nbsp; Subir fotografía</p>
+                                    </button>
+                                    <button ngbDropdownItem>
+                                      <p class="py-0 px-0 my-0 mx-0" (click)="tomarFoto()"><i class="fas fa-camera-retro"></i> &nbsp; Tomar fotografía</p>
+                                    </button>
+                                  </div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-sm-12">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-2">
+                                    <mat-form-field appearance="legacy" class="w-100">
+                                        <mat-label>Num. nómina</mat-label>
+                                        <input matInput [(ngModel)]="relacionLaboral.numero_nomina" type="text">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-5 col-sm-10">
+                                  <mat-form-field class="w-100">
+                                      <mat-label>Nombre (s)</mat-label>
+                                      <input matInput [(ngModel)]="relacionLaboral.nombres" style="text-transform: uppercase;" type="text" autocomplete="false">
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-lg-4 col-sm-6">
+                                    <mat-form-field appearance="legacy" class="w-100">
+                                      <mat-label>Apellido paterno</mat-label>
+                                      <input matInput type="text" [(ngModel)]="relacionLaboral.apellido_p" autocomplete="false" style="text-transform: uppercase;">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-4 col-sm-6">
+                                    <mat-form-field appearance="legacy" class="w-100">
+                                      <mat-label>Apellido materno</mat-label>
+                                      <input matInput type="text" [(ngModel)]="relacionLaboral.apellido_m" autocomplete="false" style="text-transform: uppercase;">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-4 col-sm-6">
+                                    <mat-form-field appearance="legacy" class="w-100">
+                                      <mat-label>CURP</mat-label>
+                                      <input matInput type="text" [(ngModel)]="relacionLaboral.curp" autocomplete="false" style="text-transform: uppercase;">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-4 col-sm-6">
+                                    <mat-form-field appearance="legacy" class="w-100">
+                                      <mat-label>RFC</mat-label>
+                                      <input matInput type="text" [(ngModel)]="relacionLaboral.rfc" autocomplete="false" style="text-transform: uppercase;">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-4 col-sm-6">
+                                    <mat-form-field class="w-100">
+                                        <mat-label>Fecha de nacimiento</mat-label>
+                                        <input matInput [matDatepicker]="picker" [(ngModel)]="relacionLaboral.fecha_nacimiento">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-2 col-sm-2">
+                                    <mat-form-field class="w-100">
+                                        <mat-label>Edad</mat-label>
+                                        <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="relacionLaboral.edad" min="0">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <mat-form-field appearance="legacy" class="w-100">
+                                        <mat-label>Correo</mat-label>
+                                        <input matInput type="text" [(ngModel)]="relacionLaboral.correo" autocomplete="false">
+                                      </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-3">
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label>Telefono</mat-label>
+                                <input matInput type="text" [(ngModel)]="relacionLaboral.telefono" autocomplete="false">
+                              </mat-form-field>
+                        </div>
+                        <div class="col-sm-6 col-lg-9">
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label>Domicilio</mat-label>
+                                <input matInput type="text" [(ngModel)]="relacionLaboral.direccion" autocomplete="false">
+                              </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h4>DATOS DE TRABAJO</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label>Departamento</mat-label>
+                                <input matInput type="text" [(ngModel)]="relacionLaboral.departamento" autocomplete="false" style="text-transform: uppercase;">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label>Puesto</mat-label>
+                                <input matInput type="text" [(ngModel)]="relacionLaboral.puesto" autocomplete="false" style="text-transform: uppercase;">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-4">
+                            <mat-form-field class="w-100">
+                                <mat-label>Fecha de ingreso</mat-label>
+                                <input matInput [matDatepicker]="pickerdos" [(ngModel)]="relacionLaboral.fecha_ingreso">
+                                <mat-datepicker-toggle matSuffix [for]="pickerdos"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerdos></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                            <mat-form-field class="w-100" floatLabel="always">
+                                <mat-label>Sueldo mensual</mat-label>
+                                <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="relacionLaboral.sueldo_mensual" min="0">
+                                <span matPrefix>$&nbsp;</span>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                            <mat-form-field class="w-100" floatLabel="always">
+                                <mat-label>Sueldo neto</mat-label>
+                                <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="relacionLaboral.sueldo_neto" min="0">
+                                <span matPrefix>$&nbsp;</span>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="DOCUMENTOS">
+                <div class="container my-2">
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-12 my-1" *ngFor="let documento of documentos">
+                            <mat-card class="example-card">
+                                <mat-card-header>
+                                    <mat-card-subtitle style="font-size: 12px;font-weight: 700;">{{documento.nombre}}</mat-card-subtitle>
+                                </mat-card-header>
+                                <img mat-card-image [src]="documento.documento" height="150" width="100" style="object-fit: cover;
+                                object-position: center center;">
+                                <mat-card-content>
+                                  <p style="font-size: 10px;">
+                                    {{documento.descripcion}}
+                                  </p>
+                                  <span *ngIf="documento.obligatorio == 1" class="badge badge-success">Obligatorio</span>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                    <div class="buttons d-flex align-items-center justify-content-space">
+                                        <button *ngIf="!documento.descarga" mat-button class="btn btn-info btn-sm" (click)="subirDocumento(documento.id_documentoDigital)">ADJUNTAR</button>
+                                        <button *ngIf="documento.descarga" mat-button class="btn btn-info btn-sm" (click)="subirDocumento(documento.id_documentoDigital)">CAMBIAR</button>
+                                        <input type="file" style="display: none;" id="adjunta{{documento.id_documentoDigital}}" (change)="cambiarDocumento($event, documento.id_documentoDigital)">
+                                        <i (click)="descarga(documento.id_documentoDigital)" class="fas fa-file-download text-info" *ngIf="documento.descarga" style="cursor: pointer;font-size: 24px;" title="Descargar"></i>
+                                    </div>
+                                    
+                                </mat-card-actions>
+                              </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>  
+        
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-warning" (click)="modal.close()"><i class="fas fa-window-close"></i> &nbsp; Cerrar</button>
+      <button type="button" class="btn btn-success" *ngIf="tipo_modal == 1" (click)="altaRelacion()"><i class="fas fa-save"></i> &nbsp; Guardar</button>
+      <button type="button" class="btn btn-info" *ngIf="tipo_modal == 2" (click)="modificarRelacion()"><i class="fas fa-pen"></i> &nbsp; Editar</button>
+    </div>
+</ng-template>
+<ng-template #modal_camera let-camera>
+    <div class="modal-header">
+        <h2 class="modal-title" id="tituloModal">Tomar fotografia</h2>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row">
+                <div *ngIf="isCameraExist; else noCameraExist" class="col-12">
+                    <div class="border border-success rounded text-center" style="width: 100%;height: 265px;">
+                        <webcam [height]="450" [width]="350" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+                        *ngIf="showWebcam" [switchCamera]="nextWebcamObservable"></webcam>
+                    </div>
+                
+                    <div *ngIf="errors.length > 0">
+                        <h4>Error Messages:</h4>
+                        <ul *ngFor="let error of errors">
+                            <li>{{ error | json }}</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <ng-template #noCameraExist>
+                    <div class="border border-danger rounded text-center" style="display: flex;justify-content: center;align-items: center;width: 450px;height: 350px;">
+                        Este dispositivo no cuenta con una camara disponible
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="camera.close()">Cerrar</button>
+        <button *ngIf="isCameraExist" type="button" class="btn btn-success" (click)="takeSnapshot()">Tomar foto</button>
+    </div>
+  </ng-template>

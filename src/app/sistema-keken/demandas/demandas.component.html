@@ -1,0 +1,276 @@
+<div class="container-fluid" style="padding-top: 120px;">
+    <div class="row">
+        <div class="col-12 table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title px-1 py-1">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>DEMANDAS LABORALES</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-4">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                </div>
+                                <input type="text"
+                                #input
+                                class="form-control"
+                                placeholder="Buscar..."
+                                [formControl]="myControl"
+                                (keyup)="autoComplete(input.value)"
+                                [(ngModel)]="buscador"
+                                [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete" (optionSelected)='buscar()'>
+                                    <mat-option *ngFor="let auto of autocomplete" [value]="auto.nombre" [id]="auto.id_RelacionLaboral" >
+                                    {{auto.nombre}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" style="cursor: pointer;" (click)="buscar()"><i class="fas fa-play"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-4">
+                        </div>
+                        <div class="col-sm-6 col-lg-4 text-right">
+                            <a class="btn btn-success" (click)="abrirAlta()"><i class="fas fa-plus-circle"></i>&nbsp;Nueva demanda</a>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover mt-1">
+                    <thead>
+                        <tr>
+                            <th>Relación laboral</th>
+                            <th>Abogado a cargo</th>
+                            <th>Fecha audiencia</th>
+                            <th>Estatus</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <!-- <tbody *ngIf="usuarios.length > 0; else pintaVacio">
+                        <tr *ngFor="let usuario of usuarios"></tr>	
+                    </tbody>
+                    <ng-template #pintaVacio>
+                        <tbody>
+                            <tr>
+                                <td colspan="4" class="text-center">No existen usuarios</td>
+                            </tr>
+                        </tbody>
+                    </ng-template> -->
+                </table>
+                <!-- <div class="col-12 text-right">
+                    <nav *ngIf="mostrar_pagination" aria-label="Page navigation example">
+                        <div class="hint-text">Mostrando <b>5</b> de <b>25</b> usuarios</div>
+                        <ul class="pagination">
+                          <li class="page-item" *ngIf="previous">
+                            <a class="page-link" href="#" aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                          </li>
+                          <li *ngFor="let pagina of paginas" class="page-item {{pagina.active}}" (click)="irPagina(pagina.valor_pagina)"><a class="page-link" style="cursor: pointer;">{{pagina.numero}}</a></li>
+                          <li class="page-item" *ngIf="next">
+                            <a class="page-link" href="#" aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h3 class="modal-title">Nueva demanda</h3>
+    </div>
+    <div class="modal-body" style="height: 400px;">
+      <div class="container">
+        <mat-tab-group mat-align-tabs="center">
+            <mat-tab label="DATOS DE CAPTURA">
+                <div class="container mt-2">
+                    <div class="form-row">
+                        <div class="col-sm-12 col-lg-12">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                </div>
+                                <input type="text"
+                                #input
+                                class="form-control"
+                                placeholder="Busque la relación laboral"
+                                [formControl]="myControl"
+                                (keyup)="autoCompleteRelacion(input.value)"
+                                [(ngModel)]="relacion"
+                                [matAutocomplete]="autoDos">
+                                <mat-autocomplete #autoDos="matAutocomplete" (optionSelected)='selectRelacion($event)'>
+                                    <mat-option *ngFor="let auto of relaciones" [value]="auto.nombre" [id]="auto.id_RelacionLaboral" >
+                                    {{auto.nombre}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" *ngIf="relacion_seleccionada == 0"><i class="far fa-eye-slash text-danger"></i></span>
+                                    <app-relacion-laboral *ngIf="relacion_seleccionada > 0" class="input-group-text" [id_relacion]="relacion_seleccionada"></app-relacion-laboral>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-12">
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label>Abogado demandante</mat-label>
+                                <input matInput [(ngModel)]="demanda.abogado_demandante" type="text" autocomplete="false" style="text-transform: uppercase;">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-12 col-lg-12">
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label>Telefono del abogado demandante</mat-label>
+                                <input matInput type="text" [(ngModel)]="demanda.telefono_demandante" autocomplete="false" style="text-transform: uppercase;">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-12 col-lg-12">
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label>Correo del abogado demandante</mat-label>
+                                <input matInput type="text" [(ngModel)]="demanda.correo_demandante" autocomplete="false" style="text-transform: uppercase;">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <mat-form-field class="w-100">
+                                <mat-label>Riesgo</mat-label>
+                                <mat-select [(ngModel)]="demanda.tipo_riesgo">
+                                    <mat-option value="B">Riesgo bajo</mat-option>
+                                    <mat-option value="M">Riesgo medio</mat-option>
+                                    <mat-option value="A">Riesgo alto</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <mat-form-field class="w-100">
+                                <mat-label>Status</mat-label>
+                                <mat-select [(ngModel)]="demanda.id_estatus">
+                                    <mat-option [value]="-1">Todos</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-12 col-lg-12">
+                            <mat-form-field class="w-100">
+                                <mat-label>Buscar despacho</mat-label>
+                                <input #input
+                                        type="text"
+                                        placeholder="Buscar por nombre o rfc"
+                                        matInput
+                                        [formControl]="myControl"
+                                        [matAutocomplete]="autoTres">
+                                <mat-autocomplete #autoTres="matAutocomplete" >
+                                  
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-12 col-lg-12">
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label>Abogado a cargo</mat-label>
+                                <input matInput type="text" [(ngModel)]="demanda.abogado_cargo" autocomplete="false" style="text-transform: uppercase;">
+                            </mat-form-field>
+                        </div>
+                  </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="AUDIENCIAS">
+                <div class="container mt-2">
+                    <div class="form-row">
+                        <div class="col-sm-6">
+                            <mat-form-field>
+                                <mat-label>Fecha de recepción</mat-label>
+                                <input matInput type="date" placeholder="start date" [(ngModel)]="audiencia.fecha_recepcion">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field>
+                                <mat-label>Fecha de audiencia</mat-label>
+                                <input matInput type="datetime-local" placeholder="start date" [(ngModel)]="audiencia.fecha_audiencia">
+                            </mat-form-field> 
+                        </div>
+                        <div class="col-sm-12">
+                            <mat-form-field class="w-100">
+                                <mat-label>Observaciones</mat-label>
+                                <textarea matInput [(ngModel)]="audiencia.observacion"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="btn btn-info" (click)='subirDocumento("audiencia_doc")'> <i class="fas fa-file-upload"></i> &nbsp; Adjuntar doc.</button>
+                            <input type="file" id="audiencia_doc" style="display: none;" (change)="cambiarDoc($event)" accept=".pdf">
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <button class="btn btn-success" (click)="agregarAudiencia()">Agregar audiencia</button>
+                        </div>
+                        <div class="col-sm-12 mt-2">
+                            <ul class="list-group" *ngIf="demanda.audiencias.length > 0; else pintaListNull">
+                                <li class="list-group-item disabled text-success text-center"><i class="far fa-calendar-alt"></i>&nbsp;CALENDARIO DE AUDIENCIAS</li>
+                                <li class="list-group-item container" *ngFor="let audiencia_text of demanda.audiencias ">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row align-items-center">
+                                                <div class="col-sm-2 text-info" style="font-size: 20px;">
+                                                    <i class="far fa-calendar"></i>
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    {{audiencia_text.fecha_mostrar}}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-2" style="font-size: 20px;">
+                                                    <i class="far fa-comment-alt text-info"></i>
+                                                </div>
+                                                <div class="col-sm-10" style="word-wrap: break-word;">
+                                                    {{audiencia_text.observacion}}
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngIf="audiencia_text.documento.length > 0">
+                                                <div class="col-sm-2 text-warning" style="font-size: 20px;">
+                                                    <i class="far fa-eye text-info" title="visualizar documento"></i>
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    <a style="cursor: pointer;" (click)="visualizarPDF(audiencia_text.id_audiencia)">Visualizar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ng-template #pintaListNull>
+                                <ul class="list-group">
+                                    <li class="list-group-item disabled text-success text-center"><i class="far fa-calendar-alt"></i>&nbsp;CALENDARIO DE AUDIENCIAS</li>
+                                    <li class="list-group-item text-center">AÚN NO SE HAN AGREGADO AUDIENCIAS</li>
+                                    
+                                </ul>
+                            </ng-template>
+                        </div>
+                        
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="DOCUMENTOS">
+            </mat-tab>
+        </mat-tab-group>
+          
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-warning" (click)="modal.close()"><i class="fas fa-window-close"></i> &nbsp; Cerrar</button>
+    </div>
+</ng-template>
+<ng-template #modal_pdf let-pdf>
+    <div class="modal-header">
+        <h2 class="modal-title" id="tituloModal">VISUALIZACIÓN</h2>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <embed [src]="url_doc" frameborder="0" width="100%" height="500">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="pdf.close()">Cerrar</button>
+    </div>
+</ng-template>

@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { SistemaRlModule } from './sistema-keken/sistema_rl.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
   ],
   imports: [
     BrowserModule,
+    SistemaRlModule,
     AppRoutingModule,
     NgbModule,
     FormsModule,
