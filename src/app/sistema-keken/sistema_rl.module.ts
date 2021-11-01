@@ -19,8 +19,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { WebcamModule } from 'ngx-webcam';
 import { DemandasComponent } from './demandas/demandas.component';
+import { DespachoDemandaComponent } from './despacho-demanda/despacho-demanda.component';
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import { DemandasComponent } from './demandas/demandas.component';
     EmpresasComponent,
     DashboardComponent,
     TerminacionLaboralComponent,
-    DemandasComponent
+    DemandasComponent,
+    DespachoDemandaComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +52,8 @@ import { DemandasComponent } from './demandas/demandas.component';
     MatDatepickerModule,
     MatCardModule,
     MatTabsModule,
-    WebcamModule
+    WebcamModule,
+    MatCheckboxModule
   ],
   bootstrap : [SistemaRlComponent]
 })

@@ -50,9 +50,19 @@ export class UsuarioService {
         return throwError(err);
       }));
   }
-  obtenerUsuarios(json : any){
-    let url = SERVER_API+"usuario/usuarios";
-    return this.http.post( url, json )
+  obtenerUsuarios(id : any){
+    let url = SERVER_API+"usuario/obtenerUsuarios/"+id;
+    return this.http.get(url)
+    .pipe(map( (resp: any) => {
+      return resp;
+    }), catchError(err => {
+      Swal.fire("Ha ocurrido un error", err.error.message, 'error');
+      return throwError(err);
+    }));
+  }
+  obtenerUsuarioPorId(id : any){
+    let url = SERVER_API+"usuario/obtenerUsuarioPorId/"+id;
+    return this.http.get(url)
     .pipe(map( (resp: any) => {
       return resp;
     }), catchError(err => {

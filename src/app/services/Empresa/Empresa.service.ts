@@ -18,4 +18,20 @@ export class EmpresaService {
         let url = SERVER_API+"empresa/obtenerEmpresas";
         return this.http.get(url);
     }
+
+    obtenerEmpresaPorId(id : string){
+        let url = SERVER_API+"empresa/obtenerEmpresaPorId/"+id;
+        return this.http.get(url);
+    }
+
+    modificarEmpresa(json : any){
+        let url = SERVER_API+"empresa/modificarEmpresa";
+        return this.http.post( url, json )
+        .pipe(map( (resp: any) => {
+            return resp;
+        }), catchError(err => {
+            Swal.fire("Ha ocurrido un error", err.error.message, 'error');
+            return throwError(err);
+        }));
+    }
 }

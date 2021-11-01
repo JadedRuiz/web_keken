@@ -20,4 +20,8 @@ export class CompartidoService {
         let url = SERVER_API+"obtenerPerfiles";
         return this.http.get(url);
     }
+    obtenerCatalogo(nombre_tabla : any){
+        let url = SERVER_API+"obtenerCatalogo/"+nombre_tabla+"/0";
+        return this.http.get(url);
+    }
 }

@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12 col-lg-4">
+                        <div class="col-sm-12 col-lg-3">
                             <mat-form-field class="w-100">
                                 <mat-label>Fecha de ingreso</mat-label>
                                 <input matInput [matDatepicker]="pickerdos" [(ngModel)]="relacionLaboral.fecha_ingreso">
@@ -118,14 +118,22 @@
                                 <mat-datepicker #pickerdos></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-12 col-lg-4">
+                        <div class="col-sm-12 col-lg-3">
+                            <mat-form-field class="w-100">
+                                <mat-label>Fecha de baja</mat-label>
+                                <input matInput [matDatepicker]="pickertres" [(ngModel)]="relacionLaboral.fecha_baja">
+                                <mat-datepicker-toggle matSuffix [for]="pickertres"></mat-datepicker-toggle>
+                                <mat-datepicker #pickertres></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-12 col-lg-3">
                             <mat-form-field class="w-100" floatLabel="always">
-                                <mat-label>Sueldo mensual</mat-label>
-                                <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="relacionLaboral.sueldo_mensual" min="0">
+                                <mat-label>Sueldo diario</mat-label>
+                                <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="relacionLaboral.sueldo_diario" min="0">
                                 <span matPrefix>$&nbsp;</span>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-12 col-lg-4">
+                        <div class="col-sm-12 col-lg-3">
                             <mat-form-field class="w-100" floatLabel="always">
                                 <mat-label>Sueldo neto</mat-label>
                                 <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="relacionLaboral.sueldo_neto" min="0">
@@ -134,6 +142,9 @@
                         </div>
                     </div>
                 </div>
+            </mat-tab>
+            <mat-tab label="FINIQUITOS">
+                
             </mat-tab>
             <mat-tab label="DOCUMENTOS">
                 <div class="container my-2">

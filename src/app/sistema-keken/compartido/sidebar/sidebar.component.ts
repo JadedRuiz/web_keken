@@ -44,14 +44,19 @@ export class SidebarComponent implements OnInit {
     this.procesos = [];
     if(this.id_perfil == "1"){  //SuperAdmin
       this.catalogos  = [
+        {path: 'inicio', title: 'Mi empresa', icon: 'far fa-building text-orange'},
         {path: 'usuarios', title: 'Usuarios', icon: 'ni-circle-08  text-orange'},
         {path: 'empresas', title: 'Empresas', icon: 'far fa-building text-orange'},
-        {path: 'relacion_laboral', title: 'Relación laboral', icon: 'fas fa-portrait text-orange'},
-        {path: 'demanda_laboral', title: 'Demanda laboral', icon: 'fas fa-book text-orange'}
       ];
       this.procesos = [
-        {path: 'procedimiento_usuario', title: 'Asignar permisos a usuario', icon: 'ni-badge text-yellow'}
+        {path: 'relacion_laboral', title: 'Relación laboral', icon: 'fas fa-portrait text-orange'},
+        {path: 'demanda_laboral', title: 'Demanda laboral', icon: 'fas fa-book text-orange'}
       ]
+    }
+    if(this.id_perfil == "5"){
+      this.catalogos  = [
+        {path: 'demanda_despacho', title: 'Demandas laborales', icon: 'far fa-building text-orange'}
+      ];
     }
     this.menuItems = [
       { path: 'dashboard', title: 'Dashboard',  icon: 'ni-tv-2 text-red', id:"dashboard_header", band: false, tipo : ""},

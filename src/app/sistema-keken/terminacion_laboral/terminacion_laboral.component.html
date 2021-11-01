@@ -64,7 +64,7 @@
                     <ng-template #pintaVacio>
                         <tbody>
                             <tr>
-                                <td colspan="4" class="text-center">No existen relaciones</td>
+                                <td colspan="5" class="text-center">No existen relaciones</td>
                             </tr>
                         </tbody>
                     </ng-template>
@@ -217,7 +217,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12 col-lg-4">
+                        <div class="col-sm-12 col-lg-3">
                             <mat-form-field class="w-100">
                                 <mat-label>Fecha de ingreso</mat-label>
                                 <input matInput [matDatepicker]="pickerdos" [(ngModel)]="relacionLaboral.fecha_ingreso">
@@ -225,19 +225,119 @@
                                 <mat-datepicker #pickerdos></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-12 col-lg-4">
+                        <div class="col-sm-12 col-lg-3">
+                            <mat-form-field class="w-100">
+                                <mat-label>Fecha de baja</mat-label>
+                                <input matInput [matDatepicker]="pickertres" [(ngModel)]="relacionLaboral.fecha_baja">
+                                <mat-datepicker-toggle matSuffix [for]="pickertres"></mat-datepicker-toggle>
+                                <mat-datepicker #pickertres></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-12 col-lg-3">
                             <mat-form-field class="w-100" floatLabel="always">
-                                <mat-label>Sueldo mensual</mat-label>
-                                <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="relacionLaboral.sueldo_mensual" min="0">
+                                <mat-label>Sueldo diario</mat-label>
+                                <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="relacionLaboral.sueldo_diario" min="0">
                                 <span matPrefix>$&nbsp;</span>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-12 col-lg-4">
+                        <div class="col-sm-12 col-lg-3">
                             <mat-form-field class="w-100" floatLabel="always">
                                 <mat-label>Sueldo neto</mat-label>
                                 <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="relacionLaboral.sueldo_neto" min="0">
                                 <span matPrefix>$&nbsp;</span>
                             </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="FINIQUITOS">
+                <div class="container my-2">
+                    <div class="row">
+                        <h4>CONCEPTOS</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h5>Partes proporcionales</h5>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field class="w-100" floatLabel="always">
+                                <mat-label>Aguinaldo</mat-label>
+                                <input matInput type="number" class="example-right-align" placeholder="0" min="0">
+                                <span matPrefix>$&nbsp;</span>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field class="w-100" floatLabel="always">
+                                <mat-label>Vacaciones</mat-label>
+                                <input matInput type="number" class="example-right-align" placeholder="0" min="0">
+                                <span matPrefix>$&nbsp;</span>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field class="w-100" floatLabel="always">
+                                <mat-label>Prima vacacional</mat-label>
+                                <input matInput type="number" class="example-right-align" placeholder="0" min="0">
+                                <span matPrefix>$&nbsp;</span>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex">
+                            <mat-checkbox [(ngModel)]="part_fin"></mat-checkbox>&nbsp;<h5>Partes de finiquito</h5>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field class="w-100" floatLabel="always">
+                                <mat-label>Indemisación</mat-label>
+                                <input matInput type="number" class="example-right-align" placeholder="0" min="0" [disabled]="!part_fin">
+                                <span matPrefix>$&nbsp;</span>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field class="w-100" floatLabel="always">
+                                <mat-label>Prima de antiguedad</mat-label>
+                                <input matInput type="number" class="example-right-align" placeholder="0" min="0" [disabled]="!part_fin">
+                                <span matPrefix>$&nbsp;</span>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field class="w-100" floatLabel="always">
+                                <mat-label>Dias por año</mat-label>
+                                <input matInput type="number" class="example-right-align" placeholder="0" min="0" [disabled]="!part_fin">
+                                <span matPrefix>$&nbsp;</span>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex">
+                            <mat-checkbox [(ngModel)]="otros_ing"></mat-checkbox>&nbsp;<h5>Otros ingresos</h5>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field class="w-100" floatLabel="always">
+                                <mat-label>Sueldos</mat-label>
+                                <input matInput type="number" class="example-right-align" placeholder="0" min="0" [disabled]="!otros_ing">
+                                <span matPrefix>$&nbsp;</span>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field class="w-100" floatLabel="always">
+                                <mat-label>Gratificaciones</mat-label>
+                                <input matInput type="number" class="example-right-align" placeholder="0" min="0" [disabled]="!otros_ing">
+                                <span matPrefix>$&nbsp;</span>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field class="w-100" floatLabel="always">
+                                <mat-label>Otro</mat-label>
+                                <input matInput type="number" class="example-right-align" placeholder="0" min="0" [disabled]="!otros_ing">
+                                <span matPrefix>$&nbsp;</span>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-right">
+                            <h4>Total : $ 0.00</h4>
                         </div>
                     </div>
                 </div>
@@ -259,11 +359,19 @@
                                   <span *ngIf="documento.obligatorio == 1" class="badge badge-success">Obligatorio</span>
                                 </mat-card-content>
                                 <mat-card-actions>
-                                    <div class="buttons d-flex align-items-center justify-content-space">
-                                        <button *ngIf="!documento.descarga" mat-button class="btn btn-info btn-sm" (click)="subirDocumento(documento.id_documentoDigital)">ADJUNTAR</button>
-                                        <button *ngIf="documento.descarga" mat-button class="btn btn-info btn-sm" (click)="subirDocumento(documento.id_documentoDigital)">CAMBIAR</button>
-                                        <input type="file" style="display: none;" id="adjunta{{documento.id_documentoDigital}}" (change)="cambiarDocumento($event, documento.id_documentoDigital)">
+                                    <div class="buttons d-flex align-items-center justify-content-space" ngbDropdown placement="top-left">
+                                        <button *ngIf="!documento.descarga" mat-button class="btn btn-info btn-sm" ngbDropdownToggle  >ADJUNTAR</button>
+                                        <button *ngIf="documento.descarga" mat-button class="btn btn-info btn-sm" ngbDropdownToggle>CAMBIAR</button>
                                         <i (click)="descarga(documento.id_documentoDigital)" class="fas fa-file-download text-info" *ngIf="documento.descarga" style="cursor: pointer;font-size: 24px;" title="Descargar"></i>
+                                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                            <button ngbDropdownItem>
+                                              <p class="py-0 px-0 my-0 mx-0" (click)="subirDocumento(documento.id_documentoDigital)"><i class="fas fa-file-upload"></i> &nbsp; Subir documento</p>
+                                              <input type="file" style="display: none;" id="adjunta{{documento.id_documentoDigital}}" (change)="cambiarDocumento($event, documento.id_documentoDigital)">
+                                            </button>
+                                            <button ngbDropdownItem>
+                                              <p class="py-0 px-0 my-0 mx-0" (click)="tomarFotoDoc(documento.id_documentoDigital)"><i class="fas fa-camera-retro"></i> &nbsp; Tomar fotografía</p>
+                                            </button>
+                                          </div>
                                     </div>
                                     
                                 </mat-card-actions>
@@ -314,4 +422,4 @@
         <button type="button" class="btn btn-warning" (click)="camera.close()">Cerrar</button>
         <button *ngIf="isCameraExist" type="button" class="btn btn-success" (click)="takeSnapshot()">Tomar foto</button>
     </div>
-  </ng-template>
+</ng-template>

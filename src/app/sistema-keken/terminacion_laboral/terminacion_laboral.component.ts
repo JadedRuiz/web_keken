@@ -26,22 +26,25 @@ export class TerminacionLaboralComponent implements OnInit {
   color  = "bg-gray";
   selected = "";
   documentos : any;
-  relacionLaboral = new RelacionLaboral(0,this.id_sucursal,0,"","","","","","","",0,"","","",0,"","","",0.00,0.00,"",1,true,[]);
+  relacionLaboral = new RelacionLaboral(0,this.id_sucursal,0,"","","","","","","",0,"","","",0,"","","",0.00,0.00,"","",1,true,[]);
   relaciones : any;
   @ViewChild('content', {static: false}) contenidoDelModal : any;
-  @ViewChild('modal_camera', {static: false}) modalCamera : any;
   modal : any;
+  public docB64 = "";
+  // webcam snapshot trigger
+  @ViewChild('modal_camera', {static: false}) modalCamera : any;
   camera : any;
   @Output() getPicture = new EventEmitter<WebcamImage>();
   showWebcam = true;
   isCameraExist = true;
   errors: WebcamInitError[] = [];
-  public docB64 = "";
-  // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
   private nextWebcam: Subject<boolean | string> = new Subject<boolean | string>();
   public tipo_modal = 1;
-  
+  public tipo_foto = 1;
+  public doc_seleccionado = 0;
+  public part_fin = false;
+  public otros_ing = false;
 
   constructor(
     public modalService : NgbModal,
@@ -197,8 +200,9 @@ export class TerminacionLaboralComponent implements OnInit {
         this.relacionLaboral.departamento = object.data.departamento;
         this.relacionLaboral.puesto = object.data.puesto;
         this.relacionLaboral.sueldo_neto = object.data.sueldo_neto;
-        this.relacionLaboral.sueldo_mensual = object.data.sueldo_mensual;
+        this.relacionLaboral.sueldo_diario = object.data.sueldo_diario;
         this.relacionLaboral.fecha_ingreso = object.data.fecha_ingreso;
+        this.relacionLaboral.fecha_baja = object.data.fecha_baja;
         //Pintar Docs
         this.obtenerDocs(2,object.data.documentos);
       }
@@ -256,7 +260,7 @@ export class TerminacionLaboralComponent implements OnInit {
         bytes[i] = binary_string.charCodeAt(i);
     }
     return bytes;
-}
+  }
 
   confirmar(title : any ,texto : any ,tipo_alert : any,json : any,tipo : number){
     Swal.fire({
@@ -297,7 +301,7 @@ export class TerminacionLaboralComponent implements OnInit {
   
   limpiar(){
     this.url_foto ="../../../assets/img/defaults/image-default.png";
-    this.relacionLaboral = new RelacionLaboral(0,this.id_sucursal,0,"","","","","","","",0,"","","",0,"","","",0.00,0.00,"",1,true,[]);
+    this.relacionLaboral = new RelacionLaboral(0,this.id_sucursal,0,"","","","","","","",0,"","","",0,"","","",0.00,0.00,"","",1,true,[]);
   }
   
   subirDocumento(id : number){
@@ -337,6 +341,13 @@ export class TerminacionLaboralComponent implements OnInit {
   }
 
   tomarFoto(){
+    this.tipo_foto = 1;
+    this.camera = this.openModal(this.modalCamera, 'md');
+  }
+
+  tomarFotoDoc(id : number){
+    this.doc_seleccionado = id;
+    this.tipo_foto = 2;
     this.camera = this.openModal(this.modalCamera, 'md');
   }
 
@@ -389,10 +400,23 @@ export class TerminacionLaboralComponent implements OnInit {
 
   handleImage(webcamImage: WebcamImage) {
     this.getPicture.emit(webcamImage);
-    this.url_foto = webcamImage.imageAsDataUrl;
-    let docB64 = this.url_foto.split(",");
-    this.relacionLaboral.user_img = docB64[1];
-    this.relacionLaboral.extension_img = "jpeg";
+    if(this.tipo_foto == 1){
+      this.url_foto = webcamImage.imageAsDataUrl;
+      let docB64 = this.url_foto.split(",");
+      this.relacionLaboral.user_img = docB64[1];
+      this.relacionLaboral.extension_img = "jpeg";
+    }
+    if(this.tipo_foto == 2){
+      this.documentos.forEach((element : any) => {
+        if(element.id_documentoDigital == this.doc_seleccionado){
+          let foto = webcamImage.imageAsDataUrl;
+          element.documento = foto;
+          let docB64 = foto.split(",");
+          element.documentoB64 = docB64[1]; 
+        }
+      });
+    }
+    
     this.camera.close();
   }
 

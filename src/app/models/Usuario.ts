@@ -6,8 +6,10 @@ export class Usuario {
         public usuario : String,
         public password : String,
         public nombre : String,
-        public avatar : String,
-        public usuario_creacion : number
+        public avatar : string,
+        public extension : string,
+        public usuario_creacion : number,
+        public id_opcion : number
     ){}
     
 }

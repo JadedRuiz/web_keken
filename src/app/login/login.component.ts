@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   public color = COLOR;
-  public usuario = new Usuario(0,0,0,"","","","",0);
+  public usuario = new Usuario(0,0,0,"","","","","",0,0);
   constructor(
     private usuario_service : UsuarioService,
     private router : Router
@@ -36,7 +36,10 @@ export class LoginComponent implements OnInit {
           window.localStorage.setItem("nombre",object.data.nombre);
           window.localStorage.setItem("url_empresa",object.data.url_empresa);
           window.localStorage.setItem("url_foto",object.data.url_foto);
-          this.router.navigate(['/sistema_rl/inicio']);
+          if(object.data.id_perfil == 3 || object.data.id_perfil == 4 || object.data.id_perfil == 5){
+            window.localStorage.setItem("id_opcion",object.data.id_opcion);
+          }
+          this.router.navigate(['/sistema_rl/dashboard']);
         }
       });
     }

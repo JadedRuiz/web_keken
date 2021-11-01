@@ -1,0 +1,43 @@
+<span style="cursor: pointer;" (click)="ver(id_demanda)" title="Visualizar"><i class="far fa-calendar-alt text-warning"></i></span>
+<ng-template #content let-modal>
+    <div class="modal-header pb-0">
+        <h2>CALENDARIO DE AUDIENCIAS</h2>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="form-row">
+                <div class="col-sm-12">
+                    <ul class="list-group rounded-0">
+                        <li class="list-group-item border-0 px-1 py-1" *ngFor="let audiencia_text of audiencias ">
+                            <div class="container px-1 py-0">
+                                <div class="row px-1 py-0">
+                                    <div class="col-12 px-1 py-0">
+                                        <div class="card px-1 py-0">
+                                            <div class="card-body">
+                                                <button 
+                                                    type="button" class="close py-0 float-right" 
+                                                    aria-label="Close"
+                                                    title="ELIMINAR AUDIENCIA">
+                                                    <span aria-hidden="true" class="text-danger">&times;</span>
+                                                </button>
+                                                <h5 class="card-title">{{audiencia_text.fecha_audiencia}}</h5>
+                                                <h6 class="card-subtitle mb-2 text-muted">Descripción</h6>
+                                                <p class="card-text">{{audiencia_text.observaciones}}</p>
+                                                <a class="card-link" title="VALIDAR AUDIENCIA" style="cursor: pointer;"><i class="far fa-calendar-check"></i></a>
+                                                <a class="card-link" title="REPROGRAMAR" style="cursor: pointer;"><i class="far fa-calendar-alt"></i></a>
+                                                <a class="card-link" title="VISUALIZAR" style="cursor: pointer;"><i class="far fa-eye"></i></a>
+                                            </div>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                      </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-warning" (click)="modal.close()"><i class="fas fa-window-close"></i> &nbsp; Cerrar</button>
+    </div>
+</ng-template>

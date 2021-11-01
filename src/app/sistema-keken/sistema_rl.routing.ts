@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginGuardGuard } from '../services/guard/login_guard.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DemandasComponent } from './demandas/demandas.component';
+import { DespachoDemandaComponent } from './despacho-demanda/despacho-demanda.component';
 import { EmpresasComponent } from './empresas/empresas.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { SistemaRlComponent } from './sistema_rl.compononent';
@@ -20,6 +21,7 @@ const routes: Routes = [{
   { path : "empresas", component : EmpresasComponent },
   { path : "relacion_laboral", component : TerminacionLaboralComponent },
   { path : "demanda_laboral", component : DemandasComponent },
+  { path : "demanda_despacho", component : DespachoDemandaComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full'}
   ]
 }];

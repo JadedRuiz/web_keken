@@ -25,6 +25,17 @@ export class DocumentoService {
         }));
     }
 
+    obtenerDocumentosDemandaConfigurados(id : any){
+        let url = SERVER_API+"documento/obtenerDocumentosDemandaConfigurados/"+id;
+        return this.http.get(url)
+        .pipe(map( (resp: any) => {
+            return resp;
+        }), catchError(err => {
+            Swal.fire("Ha ocurrido un error", err.error.message, 'error');
+            return throwError(err);
+        }));
+    }
+
     obtenerDocumentoRelacion(id_relacion : number, id_doc : number){
         let url = SERVER_API+"documento/obtenerDocumentoRelacion/"+id_relacion+"/"+id_doc;
         return this.http.get(url)

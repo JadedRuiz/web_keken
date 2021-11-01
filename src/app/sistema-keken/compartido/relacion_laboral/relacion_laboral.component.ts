@@ -19,7 +19,7 @@ export class RelacionLaboralComponent implements OnInit {
   documentos : any;
   url_foto : any;
   @ViewChild('content', {static: false}) contenidoDelModal : any;
-  relacionLaboral = new RelacionLaboral(0,this.id_sucursal,0,"","","","","","","",0,"","","",0,"","","",0.00,0.00,"",1,true,[]);
+  relacionLaboral = new RelacionLaboral(0,this.id_sucursal,0,"","","","","","","",0,"","","",0,"","","",0.00,0.00,"","",1,true,[]);
 
   constructor(
     public modalService : NgbModal,
@@ -98,8 +98,9 @@ export class RelacionLaboralComponent implements OnInit {
         this.relacionLaboral.departamento = object.data.departamento;
         this.relacionLaboral.puesto = object.data.puesto;
         this.relacionLaboral.sueldo_neto = object.data.sueldo_neto;
-        this.relacionLaboral.sueldo_mensual = object.data.sueldo_mensual;
+        this.relacionLaboral.sueldo_diario = object.data.sueldo_diario;
         this.relacionLaboral.fecha_ingreso = object.data.fecha_ingreso;
+        this.relacionLaboral.fecha_baja = object.data.fecha_baja;
         //Pintar Docs
         this.obtenerDocs(2,object.data.documentos);
       }
@@ -186,6 +187,6 @@ export class RelacionLaboralComponent implements OnInit {
 
   limpiar(){
     this.url_foto ="../../../assets/img/defaults/image-default.png";
-    this.relacionLaboral = new RelacionLaboral(0,this.id_sucursal,0,"","","","","","","",0,"","","",0,"","","",0.00,0.00,"",1,true,[]);
+    this.relacionLaboral = new RelacionLaboral(0,this.id_sucursal,0,"","","","","","","",0,"","","",0,"","","",0.00,0.00,"","",1,true,[]);
   }
 }

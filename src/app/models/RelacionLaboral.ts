@@ -18,9 +18,10 @@ export class RelacionLaboral {
         public direccion : string,
         public puesto : string,
         public departamento :string,
-        public sueldo_mensual : number,
+        public sueldo_diario : number,
         public sueldo_neto : number,
         public fecha_ingreso : string,
+        public fecha_baja : string,
         public usuario_c : number,
         public activo : boolean,
         public documentos : any
